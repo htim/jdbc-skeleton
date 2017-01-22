@@ -1,6 +1,6 @@
 package com.epam.training.spring;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,14 +15,26 @@ import javax.sql.DataSource;
 @Configuration
 public class DatabaseConfiguration {
 
+  @Value("${spring.datasource.url}")
+  private String url;
+  @Value("${spring.datasource.username}")
+  private String user;
+  @Value("${spring.datasource.password}")
+  private String password;
+
   // If you use spring-boot-starter-jdbc
   // DataSource/JdbcTemplate/NamedJdbcTemplate already exists
 
   // next line means that spring will inject props as class fields using setters
-  @ConfigurationProperties(prefix = "spring.datasource")
+//  @ConfigurationProperties(prefix = "spring.datasource")
+//  @Bean
+//  public DataSource dataSource() {
+//    return new DriverManagerDataSource();
+//  }
+
   @Bean
   public DataSource dataSource() {
-    return new DriverManagerDataSource();
+    return new DriverManagerDataSource(url, user, password);
   }
 
   @Bean
