@@ -34,7 +34,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findUserByLogin(String login) {
-        return null;
+        return jdbcTemplate.queryForObject("SELECT * FROM users WHERE login = ?", this::mapRow, login);
     }
 
     @Override
