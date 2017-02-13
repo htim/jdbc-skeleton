@@ -89,7 +89,7 @@ public class CarRepositoryImpl implements CarRepository {
     car.setModel(rs.getString("model"));
     car.setPrice(rs.getDouble("price"));
     car.setDate(rs.getDate("date"));
-    car.setColorId(rs.getInt("color_id"));
+    car.setColorId(rs.getInt("colorid"));
     return car;
   }
 }

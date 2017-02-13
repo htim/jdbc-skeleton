@@ -2,6 +2,8 @@ package com.epam.training.service;
 
 import com.epam.training.dao.UserRepository;
 import com.epam.training.domain.User;
+import com.epam.training.exception.InvalidPasswordException;
+import com.epam.training.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,4 +36,14 @@ public class UserService {
         userRepository.delete(id);
     }
 
+    public User authenticate(User user) throws UserNotFoundException, InvalidPasswordException {
+        User foundUser = this.findUserByLogin(user.getLogin());
+        if (foundUser == null) {
+            throw new UserNotFoundException();
+        }
+        if (!foundUser.getPassword().equals(user.getPassword())) {
+            throw new InvalidPasswordException();
+        }
+        return foundUser;
+    }
 }

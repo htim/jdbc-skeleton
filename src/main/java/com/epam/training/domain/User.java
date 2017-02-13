@@ -1,13 +1,28 @@
 package com.epam.training.domain;
 
+import org.hibernate.validator.constraints.Email;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 /**
  * Created by htim on 11.02.2017.
  */
+@Component
 public class User {
 
     private Long id;
+    @NotNull
+    @Size(min = 3, max = 30)
     private String login;
+    @NotNull
+    @Size(min = 3, max = 30)
     private String password;
+    @Email
     private String email;
     private String role;
 

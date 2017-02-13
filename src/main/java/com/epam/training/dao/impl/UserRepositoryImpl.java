@@ -3,6 +3,7 @@ package com.epam.training.dao.impl;
 import com.epam.training.dao.UserRepository;
 import com.epam.training.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -34,7 +35,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findUserByLogin(String login) {
-        return jdbcTemplate.queryForObject("SELECT * FROM users WHERE login = ?", this::mapRow, login);
+        try {
+            User user = jdbcTemplate.queryForObject("SELECT * FROM users WHERE login = ?", this::mapRow, login);
+            return user;
+        } catch (EmptyResultDataAccessException ignored) {
+            return null;
+        }
     }
 
     @Override
@@ -49,8 +55,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean exists(Long id) {
-        Long count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM users WHERE id=?", Long.class, id);
-        return count != null && count > 0;
+        try {
+            Long count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM users WHERE id=?", Long.class, id);
+            return count != null && count > 0;
+        } catch (EmptyResultDataAccessException ignored) {
+            return false;
+        }
     }
 
     @Override
@@ -60,7 +70,11 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findOne(Long id) {
-        return jdbcTemplate.queryForObject("SELECT * FROM users WHERE id = ?", this::mapRow, id);
+        try {
+            return jdbcTemplate.queryForObject("SELECT * FROM users WHERE id = ?", this::mapRow, id);
+        } catch (EmptyResultDataAccessException ignored) {
+            return null;
+        }
     }
 
     @Override
