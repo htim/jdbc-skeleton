@@ -8,6 +8,9 @@
 <html>
 <head>
     <link rel='stylesheet' href='webjars/bootstrap/3.3.7-1/css/bootstrap.min.css'>
+    <script src='webjars/jquery/3.1.1-1/jquery.min.js'></script>
+    <script src='webjars/bootstrap/3.3.7-1/js/bootstrap.js'></script>
+    <script src='script.js'></script>
     <title>Car Service</title>
 </head>
 <body>
