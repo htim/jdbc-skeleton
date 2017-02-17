@@ -32,11 +32,15 @@ public class AuthController {
 
     @GetMapping("/login")
     public String showLogin(Model model) {
+        model.addAttribute("user", new User());
         return "login";
     }
 
     @PostMapping("/login")
     public String authorize(@Valid User user, BindingResult bindingResult) throws UserNotFoundException, InvalidPasswordException {
+        if (bindingResult.hasErrors()) {
+            return "login";
+        }
         User foundUser = userService.authenticate(user);
         userManager.setUser(foundUser);
         return "redirect:/index";
@@ -51,12 +55,14 @@ public class AuthController {
     @ExceptionHandler(UserNotFoundException.class)
     public String handleUserNotFoundException(Model model) {
         model.addAttribute("error", "loginError");
+        model.addAttribute("user", new User());
         return "login";
     }
 
     @ExceptionHandler(InvalidPasswordException.class)
     public String handleInvalidPasswordException(Model model) {
         model.addAttribute("error", "passwordError");
+        model.addAttribute("user", new User());
         return "login";
     }
 }

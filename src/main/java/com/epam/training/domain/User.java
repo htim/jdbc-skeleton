@@ -16,7 +16,11 @@ import javax.validation.constraints.Size;
 public class User {
 
     private Long id;
+    @NotNull
+    @Size(min = 3, max = 20)
     private String login;
+    @NotNull
+    @Size(min = 3, max = 20)
     private String password;
     private String email;
     private String role;
